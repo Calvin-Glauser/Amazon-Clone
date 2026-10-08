@@ -20,7 +20,7 @@ function renderProducts() {
         <img
           src="${productItem.image || ''}"
           alt="${productItem.name}"
-          class="h-[300px] w-[300px] object-cover"
+          class="h-[200px] w-[200px] cover"
         >
       </div>
       <div class="flex flex-col gap-2">
@@ -44,7 +44,11 @@ function renderProducts() {
 
     const id = Number(button.dataset.productId);
     const selectedProduct = product.find((item) => item.id === id);
-    if (selectedProduct) addToCart(selectedProduct);
+
+    if (selectedProduct) {
+      addToCart(selectedProduct);
+      renderHeader();
+    }
   });
 }
 

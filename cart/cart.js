@@ -11,7 +11,7 @@ export function saveCart(cart) {
 
 export function addToCart(product) {
   const cart = getCart();
-  const existing = cart.find((item) => item.name === product.name);
+  const existing = cart.find((item) => item.id === product.id);
 
   if (existing) {
     existing.quantity += 1;
@@ -23,8 +23,18 @@ export function addToCart(product) {
   return cart;
 }
 
-export function removeFromCart(Id) {
-  const cart = getCart().filter((item) => item.id !== Id);
+export function updateQuantity(itemId, quantity) {
+  const nextQuantity = Number(quantity);
+  const cart = getCart()
+    .map((item) => (item.id === itemId ? { ...item, quantity: Number.isFinite(nextQuantity) ? Math.max(1, nextQuantity) : 1 } : item))
+    .filter((item) => item.quantity > 0);
+
+  saveCart(cart);
+  return cart;
+}
+
+export function removeFromCart(itemId) {
+  const cart = getCart().filter((item) => item.id !== itemId);
   saveCart(cart);
   return cart;
 }
